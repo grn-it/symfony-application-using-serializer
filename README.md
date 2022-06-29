@@ -1,1 +1,1 @@
-# Symfony application showing how to use a serializer
+# Symfony Application showing how to use Serializer
