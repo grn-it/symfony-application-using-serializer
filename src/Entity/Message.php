@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -20,15 +21,24 @@ class Message
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
+    #[Assert\NotNull(message: 'User specified in "From" not found')]
     private $from;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read', 'write'])]
+    #[Assert\NotNull(message: 'User specified in "To" not found')]
     private $to;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['read', 'write'])]
+    #[Assert\NotBlank(message: 'Text cannot by empty')]
+    #[Assert\Length(
+        min: 2, 
+        max: 255, 
+        minMessage: 'Text must be at least {{ limit }}', 
+        maxMessage: 'Text cannot be longer than {{ limit }}'
+    )]
     private $text;
 
     #[Gedmo\Timestampable(on: 'create')]

@@ -16,7 +16,7 @@ class MessageEditor
 
     public function edit(Message $message, Message $editedMessage): Message
     {
-        $this->messageValidator->validateText($editedMessage->getText());
+        $this->messageValidator->validate($editedMessage);
 
         $message->setText($editedMessage->getText());
         

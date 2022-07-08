@@ -13,18 +13,12 @@ class MessagePersister
     public function __construct(
         private readonly EntityManagerInterface $entityManager, 
         private readonly UserRepository $userRepository,
-        private readonly MessageValidator $validator
+        private readonly MessageValidator $messageValidator
     ) {}
 
     public function persist(Message $message): Message
     {
-        $from = $this->userRepository->find($message->getFrom()->getId());
-        $message->setFrom($from);
-        
-        $to = $this->userRepository->find($message->getTo()->getId());
-        $message->setTo($to);
-
-        $this->validator->validate($message);
+        $this->messageValidator->validate($message);
         
         $this->entityManager->persist($message);
         $this->entityManager->flush();
