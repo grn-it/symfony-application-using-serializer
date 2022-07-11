@@ -11,6 +11,7 @@ Symfony application showing how to use a serializer
 + [Delete Message](https://github.com/grn-it/symfony-application-using-serializer#delete-message)
 
 ## Authorization
+Sample:
 ```php
 class ApiLoginController extends AbstractController
 {
@@ -22,9 +23,12 @@ class ApiLoginController extends AbstractController
 }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/ApiLoginController.php)
+<br><br>
+Request:
 ```bash
 curl http://127.0.0.1:8000/api/login -c .cookie-jar -H "Content-Type: application/json" -d '{"username":"walter@gmail.com","password": "123"}' | jq
 ```
+Response:
 ```json
 {
   "message": "Logged In \"walter@gmail.com\""
@@ -32,6 +36,7 @@ curl http://127.0.0.1:8000/api/login -c .cookie-jar -H "Content-Type: applicatio
 ```
 
 ## Get List of Messages
+Sample:
 ```php
 #[Route('messages', name: 'message_list', methods: ['GET'])]
     public function list(): JsonResponse
@@ -46,9 +51,12 @@ curl http://127.0.0.1:8000/api/login -c .cookie-jar -H "Content-Type: applicatio
     }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+<br><br>
+Request:
 ```bash
 curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar
 ```
+Response:
 ```json
 [
   {
@@ -208,6 +216,7 @@ curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar
 ]
 ```
 ## Get Message by Id
+Sample:
 ```php
 #[Route('messages/{id}', name: 'message_item', methods: ['GET'])]
     public function item(int $id): JsonResponse
@@ -227,9 +236,12 @@ curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar
     }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+<br><br>
+Request:
 ```bash
 curl http://127.0.0.1:8000/api/messages/46 --cookie .cookie-jar | jq
 ```
+Response:
 ```json
 {
   "id": 46,
@@ -247,6 +259,7 @@ curl http://127.0.0.1:8000/api/messages/46 --cookie .cookie-jar | jq
 }
 ```
 ## Add Message
+Sample:
 ```php
 #[Route('messages', name: 'message_add', methods: ['POST'])]
     public function add(Request $request, MessagePersister $messagePersister): JsonResponse
@@ -276,9 +289,12 @@ curl http://127.0.0.1:8000/api/messages/46 --cookie .cookie-jar | jq
     }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+<br><br>
+Request:
 ```bash
 curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar -d '{"from":{"id":55},"to":{"id":56},"text":"New Message"}' | jq
 ```
+Resonse:
 ```json
 {
   "id": 118,
@@ -296,6 +312,7 @@ curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar -d '{"from":{"id":5
 }
 ```
 ## Edit Message
+Sample:
 ```php
 #[Route('messages/{id}', name: 'message_edit', methods: ['PUT'])]
     public function edit(int $id, Request $request, MessageEditor $messageEditor): JsonResponse
@@ -330,9 +347,12 @@ curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar -d '{"from":{"id":5
     }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+<br><br>
+Request:
 ```bash
 curl -X PUT http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar -d '{"from":{"id":55},"to":{"id":56},"text":"Edited Message"}' | jq
 ```
+Response:
 ```json
 {
   "id": 118,
@@ -350,6 +370,7 @@ curl -X PUT http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar -d '{"fr
 }
 ```
 ## Delete Message
+Sample:
 ```php
 #[Route('messages/{id}', name: 'message_remove', methods: ['DELETE'])]
     public function remove(int $id, MessageRemover $messageRemover): JsonResponse
@@ -371,9 +392,12 @@ curl -X PUT http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar -d '{"fr
     }
 ```
 [Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+<br><br>
+Request:
 ```bash
 curl -X DELETE http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar | jq
 ```
+Response:
 ```json
 {
   "message": "Message has been removed"
