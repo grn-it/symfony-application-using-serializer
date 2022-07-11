@@ -289,3 +289,57 @@ curl http://127.0.0.1:8000/api/messages --cookie .cookie-jar -d '{"from":{"id":5
   "updatedAt": "2022-07-11 01:01:07"
 }
 ```
+## Edit Message
+```php
+#[Route('messages/{id}', name: 'message_edit', methods: ['PUT'])]
+    public function edit(int $id, Request $request, MessageEditor $messageEditor): JsonResponse
+    {
+        try {
+            $message = $this->messageProvider->getOne($id);
+            if (is_null($message)) {
+                return new JsonResponse(['message' => sprintf('Message with id "%d" not found', $id)]);
+            }
+
+            $editedMessage = $this->serializer->deserialize(
+                $request->getContent(),
+                Message::class,
+                'json',
+                context: $this->serializerContextBuilder->getContextForWrite()
+            );
+
+            $message = $messageEditor->edit($message, $editedMessage);
+        } catch (MessageValidationException $exception) {
+            return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['message' => 'Message has not been edited'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $json = $this->serializer->serialize(
+            $message,
+            'json',
+            context: $this->serializerContextBuilder->getContextForRead()
+        );
+
+        return new JsonResponse($json, json: true);
+    }
+```
+[Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+```bash
+curl -X PUT http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar -d '{"from":{"id":55},"to":{"id":56},"text":"Edited Message"}' | jq
+```
+```json
+{
+  "id": 118,
+  "from": {
+    "id": 55,
+    "email": "walter@gmail.com"
+  },
+  "to": {
+    "id": 56,
+    "email": "kate@gmail.com"
+  },
+  "text": "Edited Message",
+  "createdAt": "2022-07-11 01:01:07",
+  "updatedAt": "2022-07-11 01:04:05"
+}
+```
