@@ -3,6 +3,13 @@ Symfony application showing how to use a serializer
 
 THIS IS DRAFT VERSION.
 
+## Content
++ [Authorization](https://github.com/grn-it/symfony-application-using-serializer#authorization)
++ [Get List of Messages](https://github.com/grn-it/symfony-application-using-serializer#get-list-of-messages)
++ [Get Message by Id](https://github.com/grn-it/symfony-application-using-serializer#get-message-by-id)
++ [Add Message](https://github.com/grn-it/symfony-application-using-serializer#add-message)
++ [Edit Message](https://github.com/grn-it/symfony-application-using-serializer#edit-message)
++ [Delete Message](https://github.com/grn-it/symfony-application-using-serializer#delete-message)
 
 ## Authorization
 ```php
