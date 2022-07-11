@@ -1,4 +1,4 @@
-# symfony-application-using-serializer
+# Symfony Application Using Serializer
 Symfony application showing how to use a serializer
 
 
