@@ -343,3 +343,33 @@ curl -X PUT http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar -d '{"fr
   "updatedAt": "2022-07-11 01:04:05"
 }
 ```
+## Delete Message
+```php
+#[Route('messages/{id}', name: 'message_remove', methods: ['DELETE'])]
+    public function remove(int $id, MessageRemover $messageRemover): JsonResponse
+    {
+        try {
+            $message = $this->messageProvider->getOne($id);
+            if (is_null($message)) {
+                return new JsonResponse(['message' => sprintf('Message with id "%d" not found', $id)]);
+            }
+
+            $messageRemover->remove($message);
+        } catch (MessageValidationException $exception) {
+            return new JsonResponse(['message' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $exception) {
+            return new JsonResponse(['message' => 'Message has not been removed'], Response::HTTP_BAD_REQUEST);
+        }
+        
+        return new JsonResponse(['message' => 'Message has been removed']);
+    }
+```
+[Show full sample code](https://github.com/grn-it/symfony-application-using-serializer/blob/main/src/Controller/MessageController.php)
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/messages/118 --cookie .cookie-jar | jq
+```
+```json
+{
+  "message": "Message has been removed"
+}
+```
