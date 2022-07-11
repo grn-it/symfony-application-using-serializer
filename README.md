@@ -1,7 +1,6 @@
 # symfony-application-using-serializer
 Symfony application showing how to use a serializer
 
-THIS IS DRAFT VERSION.
 
 ## Content
 + [Authorization](https://github.com/grn-it/symfony-application-using-serializer#authorization)
